@@ -1,9 +1,9 @@
-name: Smoke Tests
+name: All Tests
 on:
     workflow_dispatch:
 jobs:
     test:
-        timeout-minutes: 10
+        timeout-minutes: 15
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -14,7 +14,7 @@ jobs:
               run: npm ci
             - name: Install Playwright Chromium
               run: npx playwright install --with-deps chromium
-            - name: Run @smoke tests
-              run: npm run test:smoke
+            - name: Run all tests
+              run: npm run test
               env:
                   BASE_URL: https://sklep.nowaera.pl
