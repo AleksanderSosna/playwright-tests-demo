@@ -15,7 +15,7 @@ const config: PlaywrightTestConfig = {
     snapshotPathTemplate: "{testDir}/__screenshots__/{platform}{/projectName}/{testFilePath}/{arg}{ext}",
     outputDir: "./output",
     reporter: process.env.CI === "true" ? "github" : [["line"], ["html"]],
-    globalSetup: path.resolve("./global-setup"),
+    //TODO globalSetup: path.resolve("./global-setup"),
     fullyParallel: true,
     retries: 1,
     forbidOnly: process.env.CI === "true",

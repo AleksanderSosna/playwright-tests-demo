@@ -15,7 +15,7 @@ test.describe("Contact Form", () => {
     test.beforeEach(async ({ page }) => {
         await page.goto("/contact");
 
-        await shared.acceptCookies();
+        await shared.acceptCookies("ui");
 
         await contactForm.fillForm(false, { nameAndSurname: { error: "" }, email: { error: "" }, phone: { error: "" }, subject: { error: "" }, message: { error: "" } });
         await contactForm.fillForm(true);
