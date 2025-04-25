@@ -29,18 +29,22 @@ test.describe("Contact Form", () => {
     });
 
     test("name and surname", async () => {
-        await contactForm.fillForm(false, { nameAndSurname: { value: "a", error: "" } });
-        await contactForm.fillForm(false, { nameAndSurname: { value: "1", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage } });
-        await contactForm.fillForm(false, { nameAndSurname: { value: "1a", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage } });
-        await contactForm.fillForm(false, { nameAndSurname: { value: "a1", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage } });
-        await contactForm.fillForm(false, { nameAndSurname: { value: "a 1", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage } });
-        await contactForm.fillForm(false, { nameAndSurname: { value: "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij", error: "" } });
-        await contactForm.fillForm(false, {
-            nameAndSurname: { value: "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijk", error: contactForm.nameAndSurnameTooLongErrorMessage },
-        });
+        const valuesAndErrors = [
+            { value: "a", error: "" },
+            { value: "1", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage },
+            { value: "1a", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage },
+            { value: "a1", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage },
+            { value: "a 1", error: contactForm.nameAndSurnameIncorrectCharactersErrorMessage },
+            { value: "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij", error: "" },
+            { value: "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijk", error: contactForm.nameAndSurnameTooLongErrorMessage },
+            { value: "abcdefghij abcdefghij abcdefghij'abcde abcdefghij-abcdefghij", error: "" },
+        ];
+        for (const valueAndError of valuesAndErrors) {
+            await contactForm.fillForm(false, { nameAndSurname: valueAndError });
+        }
 
         await contactForm.fillForm(false, {
-            nameAndSurname: { value: "abcdefghij abcdefghij abcdefghij'abcde abcdefghij-abcdefghij", error: "" },
+            nameAndSurname: { error: "" },
             email: { error: contactForm.emailInputEmptyInputErrorMessage },
             phone: { error: contactForm.phoneInputEmptyInputErrorMessage },
             subject: { error: contactForm.subjectEmptyInputErrorMessage },
@@ -57,18 +61,24 @@ test.describe("Contact Form", () => {
     });
 
     test("email", async () => {
-        await contactForm.fillForm(false, { email: { value: "test@email.com", error: "" } });
-        await contactForm.fillForm(false, { email: { value: "test@email.c", error: contactForm.emailInputIncorrectFormatErrorMessage } });
-        await contactForm.fillForm(false, { email: { value: "test@email.", error: contactForm.emailInputIncorrectFormatErrorMessage } });
-        await contactForm.fillForm(false, { email: { value: "test@email", error: contactForm.emailInputIncorrectFormatErrorMessage } });
-        await contactForm.fillForm(false, { email: { value: "test@", error: contactForm.emailInputIncorrectFormatErrorMessage } });
-        await contactForm.fillForm(false, { email: { value: "test", error: contactForm.emailInputIncorrectFormatErrorMessage } });
-        await contactForm.fillForm(false, { email: { value: "t", error: contactForm.emailInputIncorrectFormatErrorMessage } });
-        await contactForm.fillForm(false, { email: { value: "", error: contactForm.emailInputEmptyInputErrorMessage } });
+        const valuesAndErrors = [
+            { value: "test@email.com", error: "" },
+            { value: "test@email.c", error: contactForm.emailInputIncorrectFormatErrorMessage },
+            { value: "test@email.", error: contactForm.emailInputIncorrectFormatErrorMessage },
+            { value: "test@email", error: contactForm.emailInputIncorrectFormatErrorMessage },
+            { value: "test@", error: contactForm.emailInputIncorrectFormatErrorMessage },
+            { value: "test", error: contactForm.emailInputIncorrectFormatErrorMessage },
+            { value: "t", error: contactForm.emailInputIncorrectFormatErrorMessage },
+            { value: "", error: contactForm.emailInputEmptyInputErrorMessage },
+            { value: "testname.testsurname@email.com", error: "" },
+        ];
+        for (const valueAndError of valuesAndErrors) {
+            await contactForm.fillForm(false, { email: valueAndError });
+        }
 
         await contactForm.fillForm(false, {
             nameAndSurname: { error: contactForm.nameAndSurnameEmptyInputErrorMessage },
-            email: { value: "testname.testsurname@email.com", error: "" },
+            email: { error: "" },
             phone: { error: contactForm.phoneInputEmptyInputErrorMessage },
             subject: { error: contactForm.subjectEmptyInputErrorMessage },
             message: { error: contactForm.messageEmptyTextAreaErrorMessage },
@@ -84,16 +94,22 @@ test.describe("Contact Form", () => {
     });
 
     test("phone", async () => {
-        await contactForm.fillForm(false, { phone: { value: "12345678", error: contactForm.phoneInputTooShortInputErrorMessage } });
-        await contactForm.fillForm(false, { phone: { value: "abcdefghi", error: contactForm.phoneInputIncorrectCharactersInputErrorMessage } });
-        await contactForm.fillForm(false, { phone: { value: "abcdefghij", error: contactForm.phoneInputTooLongInputErrorMessage } });
-        await contactForm.fillForm(false, { phone: { value: "1234567890", error: contactForm.phoneInputTooLongInputErrorMessage } });
-        await contactForm.fillForm(false, { phone: { value: "+12345678", error: contactForm.phoneInputIncorrectCharactersInputErrorMessage } });
+        const valuesAndErrors = [
+            { value: "12345678", error: contactForm.phoneInputTooShortInputErrorMessage },
+            { value: "abcdefghi", error: contactForm.phoneInputIncorrectCharactersInputErrorMessage },
+            { value: "abcdefghij", error: contactForm.phoneInputTooLongInputErrorMessage },
+            { value: "1234567890", error: contactForm.phoneInputTooLongInputErrorMessage },
+            { value: "+12345678", error: contactForm.phoneInputIncorrectCharactersInputErrorMessage },
+            { value: "123456789", error: "" },
+        ];
+        for (const valueAndError of valuesAndErrors) {
+            await contactForm.fillForm(false, { phone: valueAndError });
+        }
 
         await contactForm.fillForm(false, {
             nameAndSurname: { error: contactForm.nameAndSurnameEmptyInputErrorMessage },
             email: { error: contactForm.emailInputEmptyInputErrorMessage },
-            phone: { value: "123456789", error: "" },
+            phone: { error: "" },
             subject: { error: contactForm.subjectEmptyInputErrorMessage },
             message: { error: contactForm.messageEmptyTextAreaErrorMessage },
         });
@@ -108,16 +124,22 @@ test.describe("Contact Form", () => {
     });
 
     test("subject", async () => {
-        await contactForm.fillForm(false, { subject: { value: "0", error: "" } });
-        await contactForm.fillForm(false, { subject: { value: "", error: contactForm.subjectEmptyInputErrorMessage } });
-        await contactForm.fillForm(false, { subject: { value: " ", error: "" } });
-        await contactForm.fillForm(false, { subject: { value: "t", error: "" } });
+        const valuesAndErrors = [
+            { value: "0", error: "" },
+            { value: "", error: contactForm.subjectEmptyInputErrorMessage },
+            { value: " ", error: "" },
+            { value: "t", error: "" },
+            { value: "test", error: "" },
+        ];
+        for (const valueAndError of valuesAndErrors) {
+            await contactForm.fillForm(false, { subject: valueAndError });
+        }
 
         await contactForm.fillForm(false, {
             nameAndSurname: { error: contactForm.nameAndSurnameEmptyInputErrorMessage },
             email: { error: contactForm.emailInputEmptyInputErrorMessage },
             phone: { error: contactForm.phoneInputEmptyInputErrorMessage },
-            subject: { value: "test", error: "" },
+            subject: { error: "" },
             message: { error: contactForm.messageEmptyTextAreaErrorMessage },
         });
         await contactForm.fillForm(true);
@@ -133,23 +155,30 @@ test.describe("Contact Form", () => {
     test.fixme("send copy?", async () => {
         await expect(contactForm.sendCopyCheckbox).toBeChecked();
 
-        await contactForm.fillForm(false, { sendCopy: false });
-        await contactForm.fillForm(false, { sendCopy: true });
-        await contactForm.fillForm(false, { sendCopy: false });
+        const values = [false, true, false];
+        for (const value of values) {
+            await contactForm.fillForm(false, { sendCopy: value });
+        }
     });
 
     test("message", async () => {
-        await contactForm.fillForm(false, { message: { value: "0", error: "" } });
-        await contactForm.fillForm(false, { message: { value: "", error: contactForm.messageEmptyTextAreaErrorMessage } });
-        await contactForm.fillForm(false, { message: { value: " ", error: "" } });
-        await contactForm.fillForm(false, { message: { value: "t", error: "" } });
+        const valuesAndErrors = [
+            { value: "0", error: "" },
+            { value: "", error: contactForm.messageEmptyTextAreaErrorMessage },
+            { value: " ", error: "" },
+            { value: "t", error: "" },
+            { value: "test", error: "" },
+        ];
+        for (const valueAndError of valuesAndErrors) {
+            await contactForm.fillForm(false, { message: valueAndError });
+        }
 
         await contactForm.fillForm(false, {
             nameAndSurname: { error: contactForm.nameAndSurnameEmptyInputErrorMessage },
             email: { error: contactForm.emailInputEmptyInputErrorMessage },
             phone: { error: contactForm.phoneInputEmptyInputErrorMessage },
             subject: { error: contactForm.subjectEmptyInputErrorMessage },
-            message: { value: "test", error: "" },
+            message: { error: "" },
         });
         await contactForm.fillForm(true);
         await contactForm.fillForm(false, {
